@@ -1135,8 +1135,16 @@ void  * client_connect(void * c)
                 }
             }
             else
-            delete(tmpuser);
+	    {
+                newuser->setFramedIp(tmpuser->getFramedIp());
+                newuser->setFramedIp6(tmpuser->getFramedIp6());
+                newuser->setFramedRoutes(tmpuser->getFramedRoutes());
+                newuser->setFramedRoutes6(tmpuser->getFramedRoutes6());
+                newuser->setClientConnectDeferFile(tmpuser->getClientConnectDeferFile());
 
+                delete(tmpuser);
+            }
+            
             if ( DEBUG ( context->getVerbosity() ) )
                 cerr << getTime() << "RADIUS-PLUGIN: FOREGROUND THREAD: Set FramedIP to the IP (" << newuser->getFramedIp() << ") OpenVPN assigned to the user " << newuser->getUsername() << "\n";
             //the user must be there and must be authenticated but not accounted
